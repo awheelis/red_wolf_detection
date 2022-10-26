@@ -4,10 +4,12 @@ this file will contain useful functions for video processing
 
 1) reading a video into an array 
 2) reducing resolution of a video
+3) saving a video from an array 
 
 
 """
 
+from re import L
 import cv2
 import numpy as np
 from PIL import Image
@@ -16,8 +18,14 @@ import time
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import os
+import bottleneck as bn
+
 
 import pdb
+
+K = 2 # background suppression threshold
+H_PERCENT = 99 # upper clipping thresh
+L_PERCENT = 1 # lower clipping thresh
 
 def load_video(file_name):
     vidcap = cv2.VideoCapture(file_name)
@@ -60,15 +68,61 @@ def save_video(video, file_name, fps = 30):
     out.release()
     print(os.getcwd(), f"/video/{file_name}.mp4",sep='')
 
+def clip_img(arr, h, l): 
+    """
+    takes in an array and clips by the h percentile and l percentile
+    arr: array
+        image array
+    h: float
+        higher thresh
+    l: float
+        lower thresh
+    """
+    clip_max = np.percentile(arr, h)
+    clip_min = np.percentile(arr, l)
+
+    arr = np.clip(arr, clip_min, clip_max)
+    return arr
+
+def linear_normalization(arr):
+    """
+    scales from 0-1 with x' = (x - xmin)/(xmax - xmin)
+    arr: array
+        image/video array
+    """
+    arr = (arr - np.min(arr))/(np.max(arr) - np.min(arr))
+    return arr
+
+def bs(video_array):
+    "Background Suppress"
+    video_array = np.array(video_array, dtype = np.uint8)
+
+    video_array = clip_img(video_array, H_PERCENT, L_PERCENT)
+
+    mean_vid = bn.median(video_array, axis = 0)
+    
+    std_vid = bn.nanstd(video_array, axis = 0) + 1
+
+    video_array -= mean_vid
+    video_array /= std_vid
+
+    video_array = (video_array > K).astype(np.uint8)
+    
+    video_array *= 255
+
+    video_array = video_array.astype(np.uint8)
+
+    return video_array
+
+
 if __name__ == "__main__":
     wolf_dir = "/Users/alex_wheelis/Documents/Fall2022/ECE 484/DCIM/100_BTCF"
     wolf_vid_fs = glob(wolf_dir + "/*")
     test_vid_f = wolf_vid_fs[0]
     wolf_vid = load_video(test_vid_f)
-    pdb.set_trace()
-
-
-
+    # res = decrease_res_by_x(wolf_vid, 500, 500)
+    save_video(bs(wolf_vid), 'bs')
+    
     # what do I want to do?
     """
     read in video 
