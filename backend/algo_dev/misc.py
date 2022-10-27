@@ -71,6 +71,25 @@ def save_video(video, file_name, fps = 30):
     out.release()
     print(os.getcwd(), f"/video/{file_name}.mp4",sep='')
 
+def save_video_w_mvmt_annotations(video, annotations_arr, file_name, fps = 30):
+
+    video = video.astype(np.uint8)
+    # Define the codec and create VideoWriter object.The output is stored in 'outpy.avi' file.
+    frame_width, frame_height = video.shape[2], video.shape[1]
+    vid_path = "./videos/"
+    if not os.path.exists(vid_path):
+        os.mkdir("./videos/")
+    out = cv2.VideoWriter(f'./videos/{file_name}.mp4',cv2.VideoWriter_fourcc(*'mp4v'), fps, (frame_width,frame_height), 0)
+    
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    
+    for i, frame in enumerate(video):
+        cv2.putText(frame, f"P(Wolf Present) = {annotations_arr[i]:.2f}", (10, 500), font, 4,(255, 255, 255), 2, cv2.LINE_AA)
+
+        out.write(frame)
+    out.release()
+    print(os.getcwd(), f"/video/{file_name}.mp4",sep='')
+
 def clip_img(arr, h, l): 
     """
     takes in an array and clips by the h percentile and l percentile
