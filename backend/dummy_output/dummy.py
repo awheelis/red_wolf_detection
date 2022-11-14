@@ -35,7 +35,7 @@ def dummy():
         # video writing test
         save_video(test_vid, "test_vid.mp4", fps = 3)
 
-        # text writing test
+        # text writing test 
         with open("test_txt.txt", "w") as file: 
             test_text = """
             This text is a test...
