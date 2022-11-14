@@ -1,4 +1,6 @@
 """
+Created by George Wheelis
+Updated: 11/14/22
 
 this file will contain useful functions for video processing
 
@@ -58,7 +60,7 @@ def decrease_res_by_x(video, width = 1920, height = 1080):
         decreased_res[i,...] = np.array(Image.fromarray(frame).resize((width, height)))
     return decreased_res
 
-def save_video(video, file_name, fps = 30):
+def save_video(video, file_name, fps = 60):
     video = video.astype(np.uint8)
     # Define the codec and create VideoWriter object.The output is stored in 'outpy.avi' file.
     frame_width, frame_height = video.shape[2], video.shape[1]
@@ -71,7 +73,7 @@ def save_video(video, file_name, fps = 30):
     out.release()
     print(os.getcwd(), f"/video/{file_name}.mp4",sep='')
 
-def save_video_w_mvmt_annotations(video, annotations_arr, file_name, fps = 30):
+def save_video_w_mvmt_annotations(video, annotations_arr, file_name, fps = 60):
 
     video = video.astype(np.uint8)
     # Define the codec and create VideoWriter object.The output is stored in 'outpy.avi' file.
@@ -82,9 +84,9 @@ def save_video_w_mvmt_annotations(video, annotations_arr, file_name, fps = 30):
     out = cv2.VideoWriter(f'./videos/{file_name}.mp4',cv2.VideoWriter_fourcc(*'mp4v'), fps, (frame_width,frame_height), 0)
     
     font = cv2.FONT_HERSHEY_SIMPLEX
-    
+    text_loc = int(video.shape[1]/4), int(video.shape[2]/4)
     for i, frame in enumerate(video):
-        cv2.putText(frame, f"P(Wolf Present) = {annotations_arr[i]:.2f}", (10, 500), font, 4,(255, 255, 255), 2, cv2.LINE_AA)
+        cv2.putText(frame, f"P(Wolf Present) = {annotations_arr[i]:.2f}", (text_loc[0], text_loc[1]), font, .5,(255, 255, 255), 2, cv2.LINE_AA)
 
         out.write(frame)
     out.release()
