@@ -5,12 +5,12 @@ Updated 11/14/22
 
 ## these are commented out so you can test the application script
 ## in order to pass, the app has to have these packages already downloaded
-# import numpy as np
-# from scipy.fft import fft
-# import cv2
-# import sys
-# sys.path.append("/Users/alex_wheelis/Documents/programming/red_wolf_detection/backend/algo_dev")
-# from misc import *
+import numpy as np
+from scipy.fft import fft
+import cv2
+import sys
+sys.path.append("/Users/alex_wheelis/Documents/programming/red_wolf_detection/backend/algo_dev")
+from misc import *
 
 def dummy():
     """
@@ -30,7 +30,7 @@ def dummy():
         Z =  fft(test_img)
 
         # opencv download test
-        rot_img = cv2.rotate(test_img, cv2.cv2.ROTATE_90_CLOCKWISE)
+        rot_img = cv2.rotate(test_img, cv2.ROTATE_90_CLOCKWISE)
 
         # video writing test
         save_video(test_vid, "test_vid.mp4", fps = 3)
