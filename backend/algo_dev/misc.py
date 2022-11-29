@@ -30,6 +30,16 @@ K = 2 # background suppression threshold
 H_PERCENT = 99 # upper clipping thresh
 L_PERCENT = 1 # lower clipping thresh
 
+def count_frames(file_name):
+    vidcap = cv2.VideoCapture(file_name)
+    success, image = vidcap.read()
+    count = 0
+    while success:
+        success, image = vidcap.read()
+        if success:
+            count += 1
+    return file_name, count
+
 def load_video(file_name, frames=100):
     vidcap = cv2.VideoCapture(file_name)
     success, image = vidcap.read()

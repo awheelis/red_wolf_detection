@@ -31,7 +31,7 @@ def dummy():
         Z =  fft(test_img)
 
         # opencv download test
-        rot_img = cv2.rotate(test_img, cv2.cv2.ROTATE_90_CLOCKWISE)
+        rot_img = cv2.rotate(test_img, cv2.ROTATE_90_CLOCKWISE)
 
         # video writing test
         save_video(test_vid, "test_vid.mp4", fps = 3)
