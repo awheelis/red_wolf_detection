@@ -6,12 +6,12 @@ Updated 11/14/22
 
 ## these are commented out so you can test the application script
 ## in order to pass, the app has to have these packages already downloaded
-import numpy as np
-from scipy.fft import fft
-import cv2
-import sys
-sys.path.append("/Users/alex_wheelis/Documents/programming/red_wolf_detection/backend/algo_dev")
-from misc import *
+# import numpy as np
+# from scipy.fft import fft
+# import cv2
+# import sys
+# sys.path.append("/Users/alex_wheelis/Documents/programming/red_wolf_detection/backend/algo_dev")
+# from misc import *
 
 def dummy():
     """
