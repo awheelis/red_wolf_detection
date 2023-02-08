@@ -20,7 +20,6 @@ import time
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import os
-import bottleneck as bn
 
 import logging
 
@@ -94,7 +93,7 @@ def save_video_w_mvmt_annotations(video, annotations_arr, file_name, fps = 60):
     out = cv2.VideoWriter(f'./videos/{file_name}.mp4',cv2.VideoWriter_fourcc(*'mp4v'), fps, (frame_width,frame_height), 0)
     
     font = cv2.FONT_HERSHEY_SIMPLEX
-    text_loc = int(video.shape[1]/4), int(video.shape[2]/4)
+    text_loc = int(video.shape[1]/8), int(video.shape[2]/8)
     for i, frame in enumerate(video):
         cv2.putText(frame, f"P(Wolf Present) = {annotations_arr[i]:.2f}", (text_loc[0], text_loc[1]), font, .5,(255, 255, 255), 2, cv2.LINE_AA)
 
@@ -128,8 +127,8 @@ def linear_normalization(arr):
     return arr
 
 def bs(video_array):
-    "Background Suppress"
-    # use bottleneck (bn) for cal   culations
+    """Background Suppress"""
+    # use bottleneck (bn) for calculations
     logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO, datefmt='%H:%M:%S')
     
     logging.info("converting list to array")
